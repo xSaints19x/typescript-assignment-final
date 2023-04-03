@@ -36,58 +36,36 @@ h1 {
     padding-top: 4px;
 }
 
-/* Pos 1 */
+.alertContainer {
+    display: grid;
+    margin-top: 30px;
+    overflow: auto;
+    height: 85vh;
+}
+
+.alertMessages {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
 .pos1 {
-    display: flex;
-    justify-content: flex-start;
-    /* margin-top: 8%; */
-    margin-top: 30px;
     overflow: auto;
-    width: 100%;
 }
 
-/* Pos 2 */
 .pos2 {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
+    justify-self: flex-end;
     overflow: auto;
-    width: 100%;
 }
 
-/* Pos 3 */
 .pos3 {
-    bottom: 0;
-    position: absolute;
-    display: flex;
+    align-self: flex-end;
     overflow: auto;
-    margin-top: 10%;
-    width: 90%;
 }
 
-/* Pos 4 */
-/* .pos4 {
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    display: flex;
-    overflow: auto;
-    margin-top: 10%;
-    width: 90%;
-} */
-
-/* .moveableContainer {
-    bottom: 0;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    z-index: 0;
-} */
-
-.moveableContainer {
-    display: flex;
-    flex-direction: column;
+.pos4 {
+    align-self: end;
+    justify-self: end;
     overflow: auto;
 }
 

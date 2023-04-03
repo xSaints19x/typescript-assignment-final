@@ -17,10 +17,8 @@ const App = () => {
     const tabTypes = ["Main", "Settings"];
     const [active, setActive] = useState(tabTypes[0]);
     // const [active, setActive] = useState(tabTypes[1]);
-    // const defaultValueSetting = {};
 
     // Input field variable
-    const settingsValue = ["3", "pos1", "5000"];
     const [notifCount, setNotifCount] = useState<number>(3);
     const [containerPosition, setContainerPosition] = useState<string>("pos1");
     const [notifPos, setNotifPos] = useState<string>("pos1");
@@ -81,7 +79,6 @@ const App = () => {
                             value="pos1"
                             name="position"
                             onChange={(event) => {
-                                settingsValue[1] = event.target.value;
                                 setNotifPos(event.target.value);
                                 console.log(event.target.value);
                             }}
@@ -96,7 +93,6 @@ const App = () => {
                             value="pos2"
                             name="position"
                             onChange={(event) => {
-                                settingsValue[1] = event.target.value;
                                 setNotifPos(event.target.value);
                                 console.log(event.target.value);
                             }}
@@ -111,7 +107,7 @@ const App = () => {
                             value="pos3"
                             name="position"
                             onChange={(event) => {
-                                settingsValue[1] = event.target.value;setNotifPos(event.target.value);
+                                setNotifPos(event.target.value);
                                 // console.log(event.target.value);
                             }}
                         />
@@ -125,7 +121,7 @@ const App = () => {
                             value="pos4"
                             name="position"
                             onChange={(event) => {
-                                settingsValue[1] = event.target.value;setNotifPos(event.target.value);
+                                setNotifPos(event.target.value);
                                 // console.log(event.target.value);
                             }}
                         />
@@ -144,11 +140,10 @@ const App = () => {
                 </div>
             </div>
             {active === tabTypes[0] && (
-                <div className={containerPosition}>
-                    <div className="moveableContainer">
-                        {alerts
-                            .slice(0, notifCount)
-                            .map((alert) => {
+                <div className="alertContainer">
+                    <div className={containerPosition}>
+                        <div className="alertMessages">
+                            {alerts.slice(0, notifCount).map((alert) => {
                                 return (
                                     <Expire
                                         key={alert.id}
@@ -161,6 +156,7 @@ const App = () => {
                                     </Expire>
                                 );
                             })}
+                        </div>
                     </div>
                 </div>
             )}
@@ -176,7 +172,7 @@ const App = () => {
                                 name="notif-count"
                                 defaultValue={notifCount}
                                 onChange={(event) => {
-                                    settingsValue[0] = event.target.value;
+                                    setNotifCount(Number(event.target.value));
                                     console.log(event.target.value);
                                 }}
                             />
@@ -200,8 +196,7 @@ const App = () => {
                                 name="delay"
                                 defaultValue={disappearingTime / 1000}
                                 onChange={(event) => {
-                                    settingsValue[2] =
-                                        event.target.value + "000";
+                                    setDisappearingTime(Number(event.target.value + "000"));
                                 }}
                             />
                             <div className="seconds">sec</div>
@@ -211,15 +206,10 @@ const App = () => {
                         className="save-button"
                         onClick={() => {
                             {
-                                setNotifCount(Number(settingsValue[0]));
+                                console.log(notifCount);
                                 console.log(notifPos);
-                                if (notifPos === "pos4") {
-                                    setContainerPosition("pos1");
-                                } else {
-                                    setContainerPosition(notifPos);
-                                }
-                                // setContainerPosition(notifPos);
-                                setDisappearingTime(Number(settingsValue[2]));
+                                console.log(disappearingTime);
+                                setContainerPosition(notifPos);
                                 alert("Settings saved!");
                             }
                         }}
