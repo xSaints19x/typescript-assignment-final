@@ -213,11 +213,12 @@ const App = () => {
                             {
                                 setNotifCount(Number(settingsValue[0]));
                                 console.log(notifPos);
-                                if (notifPos === "pos3" || notifPos === "pos4") {
+                                if (notifPos === "pos4") {
                                     setContainerPosition("pos1");
                                 } else {
                                     setContainerPosition(notifPos);
                                 }
+                                // setContainerPosition(notifPos);
                                 setDisappearingTime(Number(settingsValue[2]));
                                 alert("Settings saved!");
                             }

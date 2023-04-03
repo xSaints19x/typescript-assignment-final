@@ -56,11 +56,24 @@ h1 {
 }
 
 /* Pos 3 */
-/* .alertContainer {
+.pos3 {
+    bottom: 0;
+    position: absolute;
     display: flex;
     overflow: auto;
-    height: ;
-    width: 100%;
+    margin-top: 10%;
+    width: 90%;
+}
+
+/* Pos 4 */
+/* .pos4 {
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    display: flex;
+    overflow: auto;
+    margin-top: 10%;
+    width: 90%;
 } */
 
 /* .moveableContainer {
@@ -70,13 +83,6 @@ h1 {
     flex-direction: column;
     overflow: hidden;
     z-index: 0;
-} */
-
-/* Pos 4 */
-/* .alertContainer {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
 } */
 
 .moveableContainer {
