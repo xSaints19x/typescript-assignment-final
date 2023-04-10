@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import Expire from "./Expire";
+import Expire, { ExpireType } from "./Expire";
 
 type alert = {
     id: number;
@@ -10,13 +10,14 @@ type alert = {
 };
 
 const URL = "http://localhost:9000/events";
+const source = new EventSource(URL);
+const upperBoundTime = 10000;
 
 const App = () => {
     // Variables used
     const [alerts, setAlerts] = useState<alert[]>([]);
     const tabTypes = ["Main", "Settings"];
     const [active, setActive] = useState(tabTypes[0]);
-    // const [active, setActive] = useState(tabTypes[1]);
 
     // Input field variable
     const [notifCount, setNotifCount] = useState<number>(3);
@@ -24,23 +25,27 @@ const App = () => {
     const [notifPos, setNotifPos] = useState<string>("pos1");
     const [disappearingTime, setDisappearingTime] = useState<number>(5000);
 
-    const source = new EventSource(URL);
-
     const addAlerts = (data: string) => {
-        // Check if existing alert > notifCount, don't add
+        // Check if existing alert > notifCount and if disappearing time is too long, remove the 1st one
+        if (alerts.length >= notifCount && disappearingTime >= upperBoundTime) {
+            const alert_id = alerts[0].id;
+            removeAlert(alert_id);
+        }
         const parsedData = JSON.parse(data);
         const newAlert = {
-            id: parsedData.id,
+            id: parsedData.msg_id,
             content: parsedData.msg,
         };
-        setAlerts((currAlerts) => [...currAlerts, newAlert]);
+        // console.log(parsedData.msg_id + " added!");
+        setAlerts(currAlerts => [...currAlerts, newAlert]);
     };
 
     const removeAlert = useCallback((id: number) => {
-        setAlerts((prevAlerts) =>
-            prevAlerts.filter((Alert) => Alert.id !== id)
+        // console.log(id + " removing...!!");
+        setAlerts(prevAlerts =>
+            prevAlerts.filter(alert => alert.id !== id)
         );
-    }, []);
+    }, [setAlerts]);
 
     useEffect(() => {
         // source.onmessage = e => console.log(e.data);
@@ -143,12 +148,12 @@ const App = () => {
                 <div className="alertContainer">
                     <div className={containerPosition}>
                         <div className="alertMessages">
-                            {alerts.slice(0, notifCount).map((alert) => {
+                            {alerts.map((alert) => {
                                 return (
                                     <Expire
                                         key={alert.id}
                                         id={alert.id}
-                                        className="alerts"
+                                        className="alerts fadeIn"
                                         delay={disappearingTime}
                                         remove={removeAlert}
                                     >
@@ -196,7 +201,9 @@ const App = () => {
                                 name="delay"
                                 defaultValue={disappearingTime / 1000}
                                 onChange={(event) => {
-                                    setDisappearingTime(Number(event.target.value + "000"));
+                                    setDisappearingTime(
+                                        Number(event.target.value + "000")
+                                    );
                                 }}
                             />
                             <div className="seconds">sec</div>

@@ -3,7 +3,9 @@
 import React, { useEffect, useState } from "react";
 // import React, { memo, useEffect, useState } from "react";
 
-interface ExpireProps {
+type ExpireProps = ExpireType
+
+export type ExpireType = {
     className?: string;
     delay: number;
     id: number;
@@ -16,20 +18,14 @@ const Expire = (props: ExpireProps): JSX.Element => {
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
-            setVisible(false);
+            // console.log(props.id + " to be removed!!");
+            props.remove(props.id);
         }, props.delay);
 
         return () => {
             clearTimeout(timeoutId);
         };
     }, [props.delay]);
-
-    useEffect(() => {
-        if (visible === true) {
-            return;
-        }
-        props.remove(props.id);
-    }, [visible]);
 
     return visible ? <div className={props.className}>{props.children}</div> : <div />;
 };
