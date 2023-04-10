@@ -11,7 +11,6 @@ type alert = {
 
 const URL = "http://localhost:9000/events";
 const source = new EventSource(URL);
-const upperBoundTime = 10000;
 
 const App = () => {
     // Variables used
@@ -27,8 +26,8 @@ const App = () => {
     const [settingsSaved, setSettingsSaved] = useState<boolean>(false);
 
     const addAlerts = (data: string) => {
-        // Check if existing alert > notifCount and if disappearing time is too long, remove the 1st one
-        if (alerts.length >= notifCount && disappearingTime >= upperBoundTime) {
+        // Check if existing alert >= notifCount, remove the 1st one
+        if (alerts.length >= notifCount) {
             const alert_id = alerts[0].id;
             removeAlert(alert_id);
         }
