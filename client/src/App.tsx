@@ -24,6 +24,7 @@ const App = () => {
     const [containerPosition, setContainerPosition] = useState<string>("pos1");
     const [notifPos, setNotifPos] = useState<string>("pos1");
     const [disappearingTime, setDisappearingTime] = useState<number>(5000);
+    const [settingsSaved, setSettingsSaved] = useState<boolean>(false);
 
     const addAlerts = (data: string) => {
         // Check if existing alert > notifCount and if disappearing time is too long, remove the 1st one
@@ -40,12 +41,22 @@ const App = () => {
         setAlerts(currAlerts => [...currAlerts, newAlert]);
     };
 
-    const removeAlert = useCallback((id: number) => {
-        // console.log(id + " removing...!!");
-        setAlerts(prevAlerts =>
-            prevAlerts.filter(alert => alert.id !== id)
-        );
-    }, [setAlerts]);
+    const removeAlert = useCallback(
+        (id: number) => {
+            // console.log(id + " removing...!!");
+            setAlerts(prevAlerts =>
+                prevAlerts.filter(alert => alert.id !== id)
+            );
+        },
+        [setAlerts]
+    );
+
+    const savingSettings = useCallback(() => {
+        setSettingsSaved(true);
+        setTimeout(() => {
+            setSettingsSaved(false);
+        }, 2500);
+    }, []);
 
     useEffect(() => {
         // source.onmessage = e => console.log(e.data);
@@ -217,7 +228,8 @@ const App = () => {
                                 console.log(notifPos);
                                 console.log(disappearingTime);
                                 setContainerPosition(notifPos);
-                                alert("Settings saved!");
+                                savingSettings();
+                                // console.log("Settings saved!");
                             }
                         }}
                     >
@@ -225,6 +237,9 @@ const App = () => {
                     </button>
                 </div>
             )}
+            <div className={`save-settings-message ${settingsSaved ? "show": ""}`}>
+                Settings saved!
+            </div>
         </div>
     );
 };
